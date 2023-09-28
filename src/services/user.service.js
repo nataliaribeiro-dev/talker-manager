@@ -1,7 +1,5 @@
 const jwt = require('jsonwebtoken');
-
 const { User } = require('../models');
-
 const { secret, jwtConfig } = require('../auth/validationJWT');
 
 const register = async ({ displayName, email, password, image }) => {
