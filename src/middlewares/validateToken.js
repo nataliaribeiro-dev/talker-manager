@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const secret = ('../auth/validationJWT');
+const { secret } = require('../auth/validationJWT');
 
 const validateToken = (req, res, next) => {
   const { authorization } = req.headers;
