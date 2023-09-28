@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const { JWT_SECRET } = process.env;
+const secret = process.env.JWT_SECRET;
 
 const jwtConfig = {
   expiresIn: '7d',
@@ -9,13 +9,13 @@ const jwtConfig = {
 
 const decodedToken = (authorization) => {
   const token = authorization.split(' ')[1];
-  const decoded = jwt.verify(token, JWT_SECRET);
+  const decoded = jwt.verify(token, secret);
   return decoded.data;
 };
 
 module.exports = {
   jwt,
-  secret: JWT_SECRET,
+  secret,
   jwtConfig,
   decodedToken,
 };

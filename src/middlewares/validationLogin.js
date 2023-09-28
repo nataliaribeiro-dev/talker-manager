@@ -8,4 +8,6 @@ const validationLogin = (req, res, next) => {
   next();
 };
 
-module.exports = validationLogin;
+module.exports = {
+  validationLogin,
+};

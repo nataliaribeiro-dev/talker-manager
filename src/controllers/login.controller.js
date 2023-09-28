@@ -1,13 +1,14 @@
-const loginService = require('../services');
+const { loginService } = require('../services');
 
 const login = async (req, res) => {
   const { email, password } = req.body;
+  const { status, message } = await loginService.login(email, password);
 
-  const result = await loginService.login(email, password);
+  if (status) return res.status(status).json({ message });
 
-  if (result.error) return res.status(result.error.type).json({ message: result.error.message });
-
-  res.status(200).json({ token: result.message });
+  return res.status(200).json({ token: message });
 };
 
-module.exports = login;
+module.exports = {
+  login,
+};
