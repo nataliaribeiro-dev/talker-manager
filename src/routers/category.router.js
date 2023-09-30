@@ -13,4 +13,6 @@ router.post(
   categoryController.createCategory,
 );
 
+router.get('/', validateToken, categoryController.getAllCategories);
+
 module.exports = router;

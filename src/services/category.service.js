@@ -1,6 +1,4 @@
-// const jwt = require('jsonwebtoken');
 const { Category } = require('../models');
-// const { secret, jwtConfig } = require('../auth/validationJWT');
 
 const createCategory = async (name) => {
   const newCategory = await Category.create({ name });
@@ -8,6 +6,13 @@ const createCategory = async (name) => {
   return newCategory;
 };
 
+const getAllCategories = async () => {
+  const categories = await Category.findAll();
+
+  return categories;
+};
+
 module.exports = {
   createCategory,
+  getAllCategories,
 };
