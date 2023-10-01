@@ -12,18 +12,18 @@ const getAllCategories = async () => {
   return categories;
 };
 
-const getCategoriesIds = async (categoryIds) => {
-  const categories = await Category.findAll({
-    where: { id: categoryIds },
-  });
+// const getCategoriesIds = async (categoryIds) => {
+//   const categories = await Category.findAll({
+//     where: { id: categoryIds },
+//   });
 
-  const mappedCategories = categories.map((category) => category.id);
+//   const mappedCategories = categories.map((category) => category.id);
 
-  return mappedCategories;
-};
+//   return mappedCategories;
+// };
 
 module.exports = {
   createCategory,
   getAllCategories,
-  getCategoriesIds,
+  // getCategoriesIds,
 };
