@@ -1,6 +1,6 @@
 const { BlogPost, Category, User } = require('../models');
 
-const createPost = async ({ title, content, categoryIds, userId }) => {
+const createPost = async ({ title, content, categoryIds }) => {
   const categories = await Category.findAll({
     where: { id: categoryIds },
   });

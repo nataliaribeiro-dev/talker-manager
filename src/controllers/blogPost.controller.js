@@ -1,5 +1,4 @@
 const { postService } = require('../services');
-const { User } = require('../models');
 
 const createPost = async (req, res) => {
   const { title, content, categoryIds } = req.body;

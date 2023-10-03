@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 
-const { secret, decodedToken } = require('../auth/validationJWT');
+const { secret } = require('../auth/validationJWT');
 
 const validateToken = (req, res, next) => {
   const { authorization } = req.headers;
