@@ -1,28 +1,22 @@
-const { sequelize, Category } = require('../models');
 const { postService } = require('../services');
+const { User, PostCategory, sequelize } = require('../models');
 
 const createPost = async (req, res) => {
   const { title, content, categoryIds } = req.body;
   const userId = req.user.id;
 
-  await sequelize.transaction(async (t) => {
-    const categoryIdExists = await Category.findAll({ where: { id: categoryIds } });
+  const newPost = await postService.createPost(
+    { title, content, categoryIds },
+    userId,
+  );
 
-    if (categoryIdExists.length !== categoryIds.length) {
-      return res.status(400).json({ message: 'one or more "categoryIds" not found' });
-    }
-
-    const newPost = await postService.createPost({ title, content, categoryIds, userId }, t);
-
-    return res.status(201).json({
-      id: newPost.id,
-      title: newPost.title,
-      content: newPost.content,
-      userId: newPost.userId,
-      updated: newPost.updated,
-      published: newPost.published,
+  if (!newPost) {
+    return res.status(400).json({
+      message: 'one or more "categoryIds" not found',
     });
-  });
+  }
+
+  return res.status(201).json(newPost);
 };
 
 const postGetAll = async (req, res) => {

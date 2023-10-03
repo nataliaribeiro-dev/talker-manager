@@ -1,31 +1,24 @@
-const { BlogPost, PostCategory, User, Category } = require('../models');
+const { BlogPost, Category, User } = require('../models');
 
-const createPost = async ({ title, content, categoryIds, userId }, transaction) => {
-  const categoriesIds = await PostCategory.findAll({
-    where: { categoryId: categoryIds },
+const createPost = async ({ title, content, categoryIds }, userId) => {
+  const categories = await Category.findAll({
+    where: { id: categoryIds },
   });
 
-  const mappedCategoriesIds = categoriesIds.map((category) => category.id);
+  const mappedCategoriesIds = categories.map((category) => category.id);
 
   if (mappedCategoriesIds.length !== categoryIds.length) {
     return false;
   }
 
   const newPost = await BlogPost.create(
-    { title, content, userId },
-    { transaction },
+    { title, content, userId, published: new Date(), updated: new Date() },
   );
 
-  await newPost.addCategories(mappedCategoriesIds, { transaction });  
+  await newPost.addCategories(categories);
 
   return newPost;
 };
-
-// const getCategoriesIds = async (categoryIds) => {
-//   const categories = await Category.findAll({ where: { id: categoryIds } });
-
-//   return categories.map((category) => category.id);
-// };
 
 const postGetAll = async () => {
   const posts = await BlogPost.findAll({
@@ -41,5 +34,4 @@ const postGetAll = async () => {
 module.exports = {
   createPost,
   postGetAll,
-  // getCategoriesIds,
 };

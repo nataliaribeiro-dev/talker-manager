@@ -4,18 +4,17 @@ const { secret, jwtConfig } = require('../auth/validationJWT');
 
 const register = async ({ displayName, email, password, image }) => {
   const existingUser = await User.findOne({ where: { email } });
+  console.log('existing', existingUser);
 
   if (existingUser) return { message: 'User already registered' };
 
-  const newUser = await User.create({ displayName, email, password, image });
-      
-  const newUserWithoutPassword = {
-    displayName: newUser.displayName,
-    email: newUser.email,
-    image: newUser.image,
-  };
-  
-  const token = jwt.sign({ data: newUserWithoutPassword }, secret, jwtConfig);
+  await User.create({ displayName, email, password, image });
+
+  const findUserById = await User.findOne({ where: { email } });
+
+  const { id } = findUserById.dataValues;
+
+  const token = jwt.sign({ payload: { email, id } }, secret, jwtConfig);
   
   return { message: token };
 };

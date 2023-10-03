@@ -8,7 +8,11 @@ const login = async (email, password) => {
 
   if (!user) return { status: 400, message: 'Invalid fields' };
 
-  const token = jwt.sign({ data: { email } }, secret, jwtConfig);
+  const findUserById = await User.findOne({ where: { email } });
+
+  const { id } = findUserById.dataValues;
+
+  const token = jwt.sign({ payload: { email, id } }, secret, jwtConfig);
 
   return { message: token };
 };
